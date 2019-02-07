@@ -54,11 +54,6 @@ event output {
   o CurrencyCode currency
 }
 
-enum contractStatus {
-  o InDelivery
-  o Delivered
-}
-
 asset tempReadingsState extends AccordContractState {
   o contractStatus ContractStatus
   o Double currentPenalty
