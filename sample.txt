@@ -1,0 +1,7 @@
+Shipment ID: "ABC456"
+
+The delivery must be delivered within 20 ("twenty") days, and the temperature must never exceed 10 degrees centigrade, or fall below 4 degrees centigrade.
+
+Should the delivery fail to meet this criteria, there will be a penalty of 100.00 GBP for every degree under the stated range, and every degree over the stated range.
+
+The shipment must arrive before 12/12/2002. If the shipment is late, there will be a flat charge of 1000.00 GBP.
