@@ -1,2 +1,2 @@
-# temperatureReading-test
+## temperatureReading-test
 Generic testing cicero based Smart Contract
