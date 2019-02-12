@@ -42,6 +42,10 @@ define function penaltyCalculationLate(isTimeCorrect : Boolean, penaltyValue : D
 contract temperature over temperatureReadingContract {
     clause checkDelivery(request : tempReadings) : checkContract emits output {
         let readings = request.readings;
+
+        enforce readings !=[]
+        else throw ErgoErrorResponse{message: "Received no information"};
+
         let low = min(readings);
         let high = max(readings);
         let avg = average(readings);
