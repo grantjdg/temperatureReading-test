@@ -3,6 +3,7 @@ namespace BS.app
 import org.accordproject.time.*
 import org.accordproject.cicero.runtime.*
 
+// Function that checks all of the readings sent in the array from request.json against the allowed readings within the contract
 define function checkTemperature(minTemperature : Double, maxTemperature : Double, readings : Double[]) : Boolean {
     let temperatureReadings = foreach x in readings return x;
     let lowestReading = min(temperatureReadings);
@@ -15,41 +16,49 @@ define function checkTemperature(minTemperature : Double, maxTemperature : Doubl
     else return true
 }
 
+// Function that checks that the delivery date (time of contract execution) is before expected delivery date written in contract
 define function checkDeliveryDate(dateOfArrival : DateTime, dueDate : DateTime) : Boolean {
     if isBefore(dateOfArrival,dueDate) = true
         then return true
     else return false
 }
 
+// Function that calculates individual penalty for every degree under allowed range
 define function penaltyCalculationUnder(isTempCorrect : Boolean, penaltyValue : Double, tempDifferenceUnder : Double) : Double {
     if isTempCorrect = false and tempDifferenceUnder > 0.0
         then return penaltyValue * tempDifferenceUnder
     else return 0.0
 }
 
+// Function that calculates individual penalty for every degree over allowed range
 define function penaltyCalculationOver(isTempCorrect : Boolean, penaltyValue : Double, tempDifferenceAbove : Double) : Double {
     if isTempCorrect = false and tempDifferenceAbove > 0.0
         then return penaltyValue * tempDifferenceAbove
     else return 0.0
 }
 
+// Function that checks if delivery date is ontime by checking the "isTimeCorrect" boolean, and adds the flat fee from the contract
 define function penaltyCalculationLate(isTimeCorrect : Boolean, penaltyValue : Double) : Double {
     if isTimeCorrect = false
         then return penaltyValue
     else return 0.0
 }
 
+// Start of contract logic
 contract temperature over temperatureReadingContract {
     clause checkDelivery(request : tempReadings) : checkContract emits output {
+        // Defining variable readings as readings array from json input
         let readings = request.readings;
-
+        // Enforcing that the readings from the array are not blank, otherwise will throw error
         enforce readings !=[]
         else throw ErgoErrorResponse{message: "Received no information"};
 
+        // Defining the lowest, highest and average reading from the array
         let low = min(readings);
         let high = max(readings);
         let avg = average(readings);
 
+        // Creating more variables using functions stated above
         let correctTemp = checkTemperature(contract.minTemp, contract.maxTemp, readings);
         let onTime = checkDeliveryDate(now, contract.dueDate);
         let penaltyValue = contract.penaltyAmount;
@@ -58,6 +67,7 @@ contract temperature over temperatureReadingContract {
         let tempDifferenceAbove = high - contract.maxTemp;
         let penalty = penaltyCalculationUnder(correctTemp, penaltyValue, tempDifferenceUnder) + penaltyCalculationOver(correctTemp, penaltyValue, tempDifferenceAbove) + penaltyCalculationLate(onTime, penaltyValueLate);
 
+        // Enforcing that the contract is NOT within range. If within range, will set status to no penalty and return contract info
         enforce !correctTemp
         else set state tempReadingState {
             stateId: "1",
@@ -65,6 +75,7 @@ contract temperature over temperatureReadingContract {
         }; 
         return checkContract {shipmentID: contract.shipmentID, correctTemp: correctTemp, onTime: onTime, finalPenalty: penalty};
 
+        // If readings are out of range, will emit an output with detailed information
         emit output {
             shipmentID: contract.shipmentID,
             correctTemp: correctTemp,
@@ -80,6 +91,7 @@ contract temperature over temperatureReadingContract {
             finalPenalty : penalty,
             currency : contract.currencyCode
         };
+        // If readings are out of range, will then set the state to delivered with penalty
         set state tempReadingState {
             stateId: "2",
             status: "Delivered_Penalty"
