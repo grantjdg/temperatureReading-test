@@ -1,4 +1,4 @@
 {
     "$class": "BS.app.tempReadings",
-    "readings":[]
+    "readings":[5,6]
 }

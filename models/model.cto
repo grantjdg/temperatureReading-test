@@ -23,19 +23,15 @@ transaction tempReadings {
   o Double[] readings
 }
 
+transaction inDelivery {
+  o Boolean inDelivery
+}
+
 transaction checkContract {
   o String shipmentID
   o Boolean correctTemp
   o Boolean onTime
-  o DateTime expectedDelivery
-  o DateTime arrivalTime
-  o Double maxAllowedTemp
-  o Double minAllowedTemp
-  o Double highestRecordedTemp
-  o Double lowestRecordedTemp
-  o Double averageRecordedTemp
   o Double finalPenalty
-  o CurrencyCode currency
 }
 
 event output {
@@ -54,11 +50,13 @@ event output {
   o CurrencyCode currency
 }
 
-asset tempReadingsState extends AccordContractState {
-  o contractStatus ContractStatus
-  o Double currentPenalty
-  o Double[] readings
+enum contractStatus {
+  o Delivered_No_Penalty
+  o Delivered_Penalty
+}
 
+asset tempReadingState extends AccordContractState {
+  o contractStatus status
 }
 // ========== Enumerators ==========
 
