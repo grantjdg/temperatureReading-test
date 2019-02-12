@@ -1,0 +1,7 @@
+Shipment ID: [{shipmentID}]
+
+The delivery must be delivered within [{time}] ([{timeText}]) [{timeUnit}], and the temperature must never exceed [{maxTemp}] degrees centigrade, or fall below [{minTemp}] degrees centigrade.
+
+Should the delivery fail to meet this criteria, there will be a penalty of [{penaltyAmount}] [{currencyCode}] for every degree under the stated range, and every degree over the stated range.
+
+The shipment must arrive before [{dueDate}]. If the shipment is late, there will be a flat charge of [{penaltyAmountLate}] [{currencyCodeLate}].

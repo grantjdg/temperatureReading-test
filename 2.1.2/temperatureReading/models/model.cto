@@ -1,0 +1,69 @@
+namespace BS.app
+
+import org.accordproject.cicero.contract.* from https://models.accordproject.org/cicero/contract.cto
+import org.accordproject.cicero.runtime.* from https://models.accordproject.org/cicero/runtime.cto
+import org.accordproject.money.CurrencyCode from https://models.accordproject.org/money.cto
+
+// Contents of the contract
+asset temperatureReadingContract extends AccordContract {
+  o String shipmentID
+  o Integer time
+  o String timeText
+  o TemporalUnit timeUnit
+  o Double maxTemp
+  o Double minTemp
+  o Double penaltyAmount
+  o CurrencyCode currencyCode
+  o DateTime dueDate
+  o Double penaltyAmountLate
+  o CurrencyCode currencyCodeLate
+}
+
+transaction tempReadings {
+  o Double[] readings
+}
+
+transaction checkContract {
+  o String shipmentID
+  o Boolean correctTemp
+  o Boolean onTime
+  o Double finalPenalty
+}
+
+event output {
+  o String shipmentID
+  o Boolean correctTemp
+  o Boolean onTime
+  o DateTime expectedDelivery
+  o DateTime arrivalTime
+  o Double[] tempRange
+  o Double maxAllowedTemp
+  o Double minAllowedTemp
+  o Double highestRecordedTemp
+  o Double lowestRecordedTemp
+  o Double averageRecordedTemp
+  o Double finalPenalty
+  o CurrencyCode currency
+}
+
+enum contractStatus {
+  o InDelivery
+  o Delivered
+}
+
+asset tempReadingsState extends AccordContractState {
+  o contractStatus ContractStatus
+  o Double currentPenalty
+  o Double[] readings
+
+}
+// ========== Enumerators ==========
+
+enum TemporalUnit {
+  o seconds
+  o minutes
+  o hours
+  o days
+  o weeks
+  o years
+}
