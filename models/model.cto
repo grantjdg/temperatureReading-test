@@ -23,10 +23,6 @@ transaction tempReadings {
   o Double[] readings
 }
 
-transaction inDelivery {
-  o Boolean inDelivery
-}
-
 transaction checkContract {
   o String shipmentID
   o Boolean correctTemp
