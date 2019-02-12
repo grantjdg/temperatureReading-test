@@ -1,6 +1,6 @@
 {
     "name": "temperature-example",
-    "version": "2.1.2",
+    "version": "3.0.0",
     "description": "An example of a tempature reading contract for BS",
     "cicero": {
       "version": "^0.10.1",
