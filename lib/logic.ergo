@@ -71,7 +71,8 @@ contract temperature over temperatureReadingContract {
         enforce !correctTemp
         else set state tempReadingState {
             stateId: "1",
-            status: "Delivered_No_Penalty"
+            contractStatus: "Delivered_No_Penalty",
+            status: "COMPLETED"
         }; 
         return checkContract {shipmentID: contract.shipmentID, correctTemp: correctTemp, onTime: onTime, expectedDelivery : contract.dueDate, arrivalTime: now, tempRange : request.readings, maxAllowedTemp : contract.maxTemp, minAllowedTemp : contract.minTemp, highestRecordedTemp: high, lowestRecordedTemp: low, averageRecordedTemp: avg, finalPenalty : penalty, currency : contract.currencyCode};
 
@@ -84,7 +85,8 @@ contract temperature over temperatureReadingContract {
         // If readings are out of range, will then set the state to delivered with penalty
         set state tempReadingState {
             stateId: "2",
-            status: "Delivered_Penalty"
+            contractStatus: "Delivered_Penalty",
+            status: "COMPLETED"
         };
         return checkContract {shipmentID: contract.shipmentID, correctTemp: correctTemp, onTime: onTime, expectedDelivery : contract.dueDate, arrivalTime: now, tempRange : request.readings, maxAllowedTemp : contract.maxTemp, minAllowedTemp : contract.minTemp, highestRecordedTemp: high, lowestRecordedTemp: low, averageRecordedTemp: avg, finalPenalty : penalty, currency : contract.currencyCode}
     }

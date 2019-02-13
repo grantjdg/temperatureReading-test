@@ -56,7 +56,8 @@ enum contractStatus {
 
 // State information
 asset tempReadingState extends AccordContractState {
-  o contractStatus status
+  o contractStatus contractStatus
+  o String status
 }
 
 // Data validation for [{timeUnit}] in template
