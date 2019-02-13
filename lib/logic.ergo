@@ -78,16 +78,6 @@ contract temperature over temperatureReadingContract {
         // If readings are out of range, will emit an output with detailed information
         emit output {
             shipmentID: contract.shipmentID,
-            correctTemp: correctTemp,
-            onTime: onTime,
-            expectedDelivery : contract.dueDate,
-            arrivalTime: now,
-            tempRange : request.readings,
-            maxAllowedTemp : contract.maxTemp,
-            minAllowedTemp : contract.minTemp,
-            highestRecordedTemp: high,
-            lowestRecordedTemp: low,
-            averageRecordedTemp: avg,
             finalPenalty : penalty,
             currency : contract.currencyCode
         };

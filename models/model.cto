@@ -44,16 +44,6 @@ transaction checkContract {
 // An emit event to output all information that the contract has checked and calculated
 event output {
   o String shipmentID
-  o Boolean correctTemp
-  o Boolean onTime
-  o DateTime expectedDelivery
-  o DateTime arrivalTime
-  o Double[] tempRange
-  o Double maxAllowedTemp
-  o Double minAllowedTemp
-  o Double highestRecordedTemp
-  o Double lowestRecordedTemp
-  o Double averageRecordedTemp
   o Double finalPenalty
   o CurrencyCode currency
 }
