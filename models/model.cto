@@ -19,10 +19,12 @@ asset temperatureReadingContract extends AccordContract {
   o CurrencyCode currencyCodeLate
 }
 
+// Transaction containing the array of reading results
 transaction tempReadings {
   o Double[] readings
 }
 
+// A transaction to return all information that the contract has checked and calculated
 transaction checkContract {
   o String shipmentID
   o Boolean correctTemp
@@ -39,6 +41,7 @@ transaction checkContract {
   o CurrencyCode currency
 }
 
+// An emit event to output all information that the contract has checked and calculated
 event output {
   o String shipmentID
   o Boolean correctTemp
@@ -55,16 +58,18 @@ event output {
   o CurrencyCode currency
 }
 
+// Enumerator for status labels
 enum contractStatus {
   o Delivered_No_Penalty
   o Delivered_Penalty
 }
 
+// State information
 asset tempReadingState extends AccordContractState {
   o contractStatus status
 }
-// ========== Enumerators ==========
 
+// Data validation for [{timeUnit}] in template
 enum TemporalUnit {
   o seconds
   o minutes
