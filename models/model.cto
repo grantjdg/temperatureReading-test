@@ -44,6 +44,8 @@ transaction checkContract {
 // An emit event to output all information that the contract has checked and calculated
 event output {
   o String shipmentID
+  o Double highestRecordedTemp
+  o Double lowestRecordedTemp
   o Double finalPenalty
   o CurrencyCode currency
 }

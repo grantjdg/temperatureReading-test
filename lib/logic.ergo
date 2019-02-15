@@ -79,6 +79,8 @@ contract temperature over temperatureReadingContract {
         // If readings are out of range, will emit an output with detailed information
         emit output {
             shipmentID: contract.shipmentID,
+            highestRecordedTemp: high,
+            lowestRecordedTemp: low,
             finalPenalty : penalty,
             currency : contract.currencyCode
         };
